@@ -1,0 +1,171 @@
+/* SignUp.module.css */
+:root {
+  --color-primary: #5db075;
+  --color-primary-hover: #4a9d64;
+  --color-background-light: #f7f9fc;
+  --color-text-dark: #333;
+  --color-text-medium: #555;
+  --color-error: #d9534f;
+  --color-border-light: #eee;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-white: #fff;
+  --color-gray-dark: #6c757d;
+  --color-gray-dark-hover: #5a6268;
+  --color-blue-link: #007bff;
+  --color-blue-link-hover: #0056b3;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Changed from min-height to height */
+  background-color: var(--color-background-light);
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logoIcon {
+  font-size: 48px;
+  color: var(--color-primary);
+  margin-right: 10px;
+}
+
+.logoText {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--color-text-dark);
+}
+
+form {
+  background-color: var(--color-white);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--color-shadow);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 14px;
+  color: var(--color-text-medium);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.formInput {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--color-text-dark);
+  box-sizing: border-box;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(93, 176, 117, 0.2); /* var(--color-primary) の透明度20% */
+}
+
+.errorText {
+  color: var(--color-error);
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  text-align: center;
+  min-height: 18px; /* Reserve space for error message */
+  visibility: visible; /* Hide by default */
+}
+
+.errorText.active {
+  visibility: visible; /* Show when error is active */
+}
+
+.submitButton {
+  width: 100%;
+  padding: 14px 20px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  margin-top: 10px;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.submitButton:disabled {
+  background-color: var(--color-gray-dark);
+  cursor: not-allowed;
+}
+
+.toggleLink {
+  margin-top: 25px;
+  font-size: 15px;
+  color: var(--color-text-medium);
+}
+
+.toggleLink a {
+  color: var(--color-blue-link);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggleLink a:hover {
+  text-decoration: underline;
+  color: var(--color-blue-link-hover);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .logoIcon {
+    font-size: 40px;
+  }
+  .logoText {
+    font-size: 28px;
+  }
+  form {
+    padding: 20px;
+    margin: 0 10px; /* 少し左右に余白 */
+  }
+  .submitButton {
+    font-size: 16px;
+    padding: 12px 15px;
+  }
+
+  .toggleLink a.modeToggleLink {
+    /* ⭐ aタグに新しいクラスを追加 */
+    color: var(--color-blue-link); /* 定義済みの青いリンク色を使用 */
+    text-decoration: underline; /* 下線を追加してリンクであることを明確に */
+    cursor: pointer; /* カーソルをポインターにする */
+    font-weight: bold; /* 少し太字にする */
+  }
+
+  .toggleLink a.modeToggleLink:hover {
+    color: var(--color-blue-link-hover); /* ホバー時の色 */
+    text-decoration: none; /* ホバー時に下線を消すか、そのままにするかは好み */
+  }
+}

@@ -1,0 +1,260 @@
+/* src/components/GroupPage/GroupPage.module.css */
+
+.container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto; /* 変更点: 水平方向の中央揃えのために 'auto' を追加 */
+  /* 親コンポーネント (例: App.tsx) で中央配置することを想定 */
+  /* ⭐ ここにFlexboxプロパティを追加して中央寄せを実装 */
+  display: flex;
+  flex-direction: column; /* 要素を縦に並べる */
+  align-items: center; /* 水平方向の中央寄せ */
+}
+
+.pageTitle {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: bold;
+}
+
+.groupList {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.groupCard {
+  background-color: #f7f7f7;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  display: flex;
+  align-items: center;
+  border-left: 8px solid #5db075; /* 左側の緑のボーダー */
+}
+
+.groupCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  background-color: #f0f0f0;
+}
+
+.groupCardIcon {
+  margin-right: 15px;
+  color: #5db075;
+  font-size: 20px; /* 例: Font Awesome などのアイコンを使用する場合 */
+}
+
+.noGroupMessage {
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+.groupActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.button {
+  /* 汎用ボタンクラス */
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.primaryButton {
+  /* メインアクションボタン */
+  background-color: #5db075;
+  color: white;
+}
+.primaryButton:hover:not(:disabled) {
+  background-color: #4a9d64;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.secondaryButton {
+  /* サブアクションボタン（例: 招待コードで参加） */
+  background-color: transparent;
+  color: #5db075;
+  border: 1px solid #5db075;
+}
+.secondaryButton:hover:not(:disabled) {
+  background-color: rgba(93, 176, 117, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* --- モーダル用のスタイル --- */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.modalOverlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 450px;
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.modalOverlay.open .modalContent {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modalTitle {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+
+.modalFormGroup {
+  margin-bottom: 20px;
+  text-align: left;
+}
+.modalFormLabel {
+  /* 現在のJSXには直接含まれていないが、将来の拡張のために残しておく */
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #555;
+}
+.modalFormInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.modalFormInput:focus {
+  outline: none;
+  border-color: #5db075;
+  box-shadow: 0 0 0 3px rgba(93, 176, 117, 0.3);
+}
+
+.modalButtonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 30px;
+}
+.modalButton {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.modalButton.primary {
+  background-color: #5db075;
+  color: white;
+  border: none;
+}
+.modalButton.primary:hover {
+  background-color: #4a9d64;
+}
+.modalButton.secondary {
+  background-color: transparent;
+  color: #555;
+  border: 1px solid #ccc;
+}
+.modalButton.secondary:hover {
+  background-color: #f0f0f0;
+}
+
+/* ...既存のスタイル */
+
+/* 招待コード表示用 */
+.inviteCodeDisplay {
+  background-color: var(--color-background-light);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Courier New", monospace; /* コードっぽく見せる */
+}
+
+.inviteCodeText {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-primary);
+  letter-spacing: 1px;
+}
+
+.copyButton {
+  padding: 8px 15px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff; /* 青色のコピーボタン */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.copyButton:hover {
+  background-color: #0056b3;
+}
+
+.modalText {
+  font-size: 16px;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.modalText strong {
+  color: var(--color-primary);
+}

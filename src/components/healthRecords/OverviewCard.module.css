@@ -1,0 +1,58 @@
+/* src/components/healthRecords/OverviewCard.module.css */
+
+.overviewCard {
+  font-size: 0.95em;
+  color: #333;
+}
+
+.overviewCard strong {
+  color: #0056b3;
+}
+
+.recordInfo {
+  font-size: 0.85em;
+  color: #6c757d;
+  margin-top: 8px;
+  border-top: 1px dashed #eee;
+  padding-top: 8px;
+}
+
+.recordSubInfo {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 5px;
+}
+
+.notesText {
+  font-size: 0.9em;
+  color: #444;
+  margin-top: 5px;
+  background-color: #f0f8ff;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.loadingText,
+.noRecordText {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 10px 0;
+}
+
+.recordSubSection {
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #eee;
+}
+
+.recordSubSection h4 {
+  font-size: 1.1em;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #ddd;
+}

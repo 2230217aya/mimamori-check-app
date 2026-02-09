@@ -1,0 +1,59 @@
+/* src/components/healthRecords/BatchHealthInputForm.module.css */
+
+.batchFormContainer {
+  background-color: #f0f2f5;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* ⭐ ここにFlexboxプロパティを追加して中央寄せを実装 */
+  display: flex;
+  flex-direction: column; /* 要素を縦に並べる */
+  align-items: center; /* 水平方向の中央寄せ */
+}
+
+.batchFormTitle {
+  color: #0056b3;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 1.6em;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+.formSection {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  align-items: center; /* 水平方向の中央寄せ */
+  min-height: 500px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.formSection:last-child {
+  margin-bottom: 0;
+}
+
+.batchSubmitButton {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff; /* 青系の色 */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 30px;
+}
+
+.batchSubmitButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.batchSubmitButton:disabled {
+  background-color: #a7d9ff; /* 無効時は薄い青 */
+  cursor: not-allowed;
+}

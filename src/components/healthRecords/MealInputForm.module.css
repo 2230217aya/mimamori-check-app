@@ -1,0 +1,119 @@
+/* src/components/healthRecords/MealInputForm.module.css */
+
+.formContainer {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+.formContainer h3 {
+  color: #007bff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.inputGroup {
+  margin-bottom: 15px;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.inputGroup input[type="text"],
+.inputGroup input[type="number"],
+.inputGroup select,
+.inputGroup textarea {
+  width: calc(100% - 20px); /* Adjust for padding */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.inputGroup textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  background-color: #e9f5ff;
+  border: 1px solid #cce0ff;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.9em;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkboxLabel:has(input:checked) {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: auto;
+  margin-right: 0;
+  accent-color: white; /* チェックボックスの色を統一 */
+}
+
+.fluidAmountInput {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.fluidAmountInput input {
+  flex-grow: 1;
+}
+
+.fluidAmountInput span {
+  font-weight: bold;
+  color: #555;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.submitButton:disabled {
+  background-color: #aaddaa;
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}

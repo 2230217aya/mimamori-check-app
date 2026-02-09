@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "firebase-functions/v2": ["node_modules/firebase-functions/v2"],
+      "firebase-admin": ["node_modules/firebase-admin"],
+      "date-fns": ["node_modules/date-fns"]
+    },
+    // ⭐⭐⭐ 最も重要な変更点 ⭐⭐⭐
+    // コンパイラが型定義ファイルを検索するルートを明示的に指定
+    "typeRoots": [
+      "./node_modules/@types" // functions自身のnode_modules/@typesのみを参照
+      // ここに他のパスは追加しない！
+    ],
+    // Functionsで本当に必要な型定義パッケージのみを明示的に指定
+    // "@types/node" はFunctionsのデフォルトで必要とされることが多い
+    "types": [
+      "node"
+      // date-fnsはfunctions/src/index.tsで直接インポートされるため、ここに不要
+      // firebase-adminの型定義は"firebase-admin"パッケージ内に含まれるため、ここに不要
+      // firebase-functionsの型定義も同様
+    ]
+  },
+  "compileOnSave": true,
+  "include": ["src"],
+  "exclude": [
+    "node_modules", // functions/node_modules を除外
+    "../node_modules", // 親ディレクトリの node_modules を除外
+    "lib", // コンパイル出力ディレクトリを除外
+    "**/*.test.ts"
+  ]
+}

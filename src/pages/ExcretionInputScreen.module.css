@@ -1,0 +1,42 @@
+/* src/pages/healthRecords/ExcretionInputScreen.module.css */
+
+.container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  /* ⭐ ここにFlexboxプロパティを追加して中央寄せを実装 */
+  display: flex;
+  flex-direction: column; /* 要素を縦に並べる */
+  align-items: center; /* 水平方向の中央寄せ */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.backButton {
+  background-color: #6c757d;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 15px;
+  transition: background-color 0.2s;
+}
+
+.backButton:hover {
+  background-color: #5a6268;
+}
+
+.pageTitle {
+  font-size: 1.8em;
+  color: #343a40;
+  margin: 0;
+  flex-grow: 1;
+}

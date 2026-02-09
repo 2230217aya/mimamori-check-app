@@ -1,0 +1,107 @@
+/* src/pages/HealthRecordsDashboard.module.css */
+
+.dashboardContainer {
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  /* ⭐ ヘッダー用スタイル */
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.backButton {
+  background-color: #6c757d;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 20px;
+  transition: background-color 0.2s;
+  flex-shrink: 0; /* ボタンが縮まないように */
+}
+
+.backButton:hover {
+  background-color: #5a6268;
+}
+
+.pageTitle {
+  /* ⭐ ヘッダーのタイトル用 */
+  font-size: 1.6em; /* ⭐ 少し小さく */
+  color: #343a40;
+  margin: 0; /* デフォルトマージンをリセット */
+  flex-grow: 1; /* 残りのスペースを埋める */
+  text-align: center;
+}
+
+.dashboardDescription {
+  font-size: 1.1em;
+  color: #6c757d;
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.dashboardDescription strong {
+  color: #343a40;
+}
+
+.recordSection {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.sectionTitle {
+  font-size: 1.4em; /* ⭐ 少し小さく */
+  color: #007bff;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+.recordButton,
+.graphButton {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.graphButton {
+  background-color: #007bff;
+}
+
+.recordButton:hover {
+  background-color: #218838;
+}
+
+.graphButton:hover {
+  background-color: #0069d9;
+}
+
+.batchInputButton {
+  /* ⭐ 一括入力ボタン用スタイル */
+  background-color: #6f42c1; /* 紫系の色 */
+  margin-right: 0; /* 中央寄せのため */
+}
+
+.batchInputButton:hover {
+  background-color: #5b36a1;
+}

@@ -1,0 +1,135 @@
+/* src/components/calendar/DailyTaskListModal.module.css - 修正案 */
+
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999; /* カレンダーモーダルよりさらに上 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+}
+
+.dialogWrapper {
+  position: relative;
+  z-index: 10;
+  max-width: 500px; /* 適度な幅 */
+  width: 90%;
+  margin: auto;
+  /* pointer-events: none; は不要かもしれません。モーダルコンテンツがクリックできない原因になることがあります。 */
+  /* 必要であれば .dialogPanel に pointer-events: auto; を設定。 */
+}
+
+.dialogPanel {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh; /* 画面高に収まるように */
+  overflow: hidden;
+  pointer-events: auto; /* パネル自体はイベントを受け取る */
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0; /* ヘッダーが縮まないように */
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+/* ⭐ 修正: modalBody のパディングを調整し、フォームとリストの両方を包む */
+.modalBody {
+  padding: 20px; /* 全体にパディングを設定 */
+  overflow-y: auto; /* タスクが多い場合にスクロール */
+  flex-grow: 1; /* 残りのスペースを埋める */
+}
+
+/* ⭐ 修正: タスク追加フォームのスタイルを統一 */
+.taskForm {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px; /* タスクリストとの間隔 */
+  padding-bottom: 15px; /* フォームの下に罫線を引くため */
+  border-bottom: 1px solid #eee;
+}
+
+.taskInput {
+  flex-grow: 1;
+  padding: 10px 15px; /* 上下左右のパディングを調整 */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.taskInput::placeholder {
+  color: #aaa;
+}
+
+.addTaskButton {
+  background-color: #5db075;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600; /* 太字に */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.addTaskButton:hover:not(:disabled) {
+  /* ホバー時に disabled でない場合のみ */
+  background-color: #4da66a;
+}
+
+.addTaskButton:disabled {
+  background-color: #a0d4b1;
+  cursor: not-allowed;
+}
+
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.noTasksMessage {
+  text-align: center;
+  color: #777;
+  padding: 20px 0; /* 上下のパディングは残す */
+}

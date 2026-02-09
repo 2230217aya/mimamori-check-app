@@ -1,0 +1,132 @@
+/* src/pages/LandingPage.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  color: #333;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box; /* パディングを含めてサイズを計算 */
+}
+
+.header {
+  background-color: #e9f5e1; /* 明るい緑系の背景 */
+  padding: 30px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.appName {
+  font-size: 2.8em;
+  color: #4caf50; /* ブランドカラー */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.tagline {
+  font-size: 1.2em;
+  color: #66bb6a;
+}
+
+.mainContent {
+  flex-grow: 1; /* 残りのスペースを埋める */
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+  text-align: left;
+}
+
+.featureSection {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+}
+
+.sectionTitle {
+  font-size: 1.8em;
+  color: #3f51b5; /* アクセントカラー */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.sectionText {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #555;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.featureList li {
+  font-size: 1.05em;
+  line-height: 1.8;
+  color: #555;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 8px;
+}
+
+.featureList li::before {
+  content: "✓"; /* チェックマークアイコン */
+  color: #4caf50;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.footer {
+  padding: 20px;
+  background-color: #f0f4f8; /* フッターの背景色 */
+  border-top: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* ボタン間のスペース */
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: 12px 25px;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 25px; /* 丸いボタン */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+}
+
+.primaryButton {
+  background-color: #4caf50; /* ブランドカラー */
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #43a047;
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  background-color: #f0f0f0;
+  color: #4caf50;
+  border: 1px solid #4caf50;
+}
+
+.secondaryButton:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+}

@@ -1,0 +1,580 @@
+/* src/pages/SettingsScreen.module.css */
+
+/*
+  メインカラー定義 (グローバルスタイルシートにあることを前提とするが、
+  ここではSettingsScreen.module.css内で利用するために例として含める。
+  実際のプロジェクトではApp.cssなど一箇所で定義するのが望ましい。)
+*/
+:root {
+  --color-primary: #5db075; /* GroupPageの緑と合わせる */
+  --color-primary-hover: #4a9d64; /* GroupPageのhoverと合わせる */
+  --color-background-light: #f7f9fc;
+  --color-text-dark: #333;
+  --color-text-medium: #555;
+  --color-error: #d9534f;
+  --color-border-light: #eee;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-white: #fff;
+  --color-gray-dark: #6c757d;
+  --color-gray-dark-hover: #5a6268;
+  --color-danger: #dc3545;
+  --color-danger-hover: #c82333;
+  --color-blue-link: #007bff;
+  --color-blue-link-hover: #0056b3;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ビューポートの高さを最低限確保 */
+  background-color: var(--color-background-light);
+  color: var(--color-text-dark);
+  font-family: "Arial", sans-serif; /* フォントを明示的に指定 */
+  box-sizing: border-box; /* paddingがwidth/heightに含まれるように */
+  padding-bottom: 20px; /* 最下部のコンテンツが見切れないように少し余白 */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: 0 2px 4px var(--color-shadow); /* ヘッダーの影を調整 */
+  flex-shrink: 0; /* ヘッダーは縮まない */
+  position: sticky; /* スクロールしても上部に固定 */
+  top: 0;
+  z-index: 100; /* 他のコンテンツの上に表示 */
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-right: 15px;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.backButton:hover {
+  color: var(--color-primary-hover);
+}
+
+.pageTitle {
+  flex-grow: 1; /* タイトルが残りのスペースを占める */
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+  color: var(--color-text-dark);
+  font-weight: bold; /* GroupPageのタイトルに合わせる */
+}
+
+.section {
+  background-color: var(--color-white);
+  margin: 15px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* GroupPageのシャドウに合わせる */
+  flex-shrink: 0; /* デフォルトではセクションは縮まない */
+}
+
+/* グループ設定セクションが展開されたときにスクロール可能にするための調整 */
+.section:has(.sectionTitle .sectionToggleButton[aria-expanded="true"]) {
+  flex-grow: 1; /* グループ設定が開いたら、このセクションが残りのスペースを埋める */
+  flex-shrink: 1; /* このセクションは縮むことを許容 */
+  overflow-y: auto; /* このセクション内でスクロールを可能にする */
+  /*
+    max-heightの計算:
+    100vh (ビューポートの高さ)
+    - ヘッダーの高さ (例: 50px-60px)
+    - このセクションより上にある他のセクションの高さとマージン
+    - このセクションより下にある他のセクションの高さとマージン (ログアウトボタンなど)
+    - .containerのpadding-bottom
+    - このセクション自体のmargin-top/bottom
+    正確な値は実際の計測によるが、ここではヘッダーの高さと上下のセクション間マージン、paddingを仮定。
+    あくまで初期値であり、実際のアプリケーションで調整が必要です。
+  */
+  max-height: calc(100vh - 60px - 15px - 15px - 20px - 20px);
+  /* 仮定: ヘッダー(60px), このセクションの上下マージン(15px*2), コンテナpadding-bottom(20px), ログアウトボタンセクションの高さ(約60px)を引く */
+  /* ここは特に調整が必要な箇所です */
+}
+
+.sectionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 10px;
+  font-weight: bold; /* タイトルを太字に */
+  color: var(--color-text-dark); /* 色を明確に */
+}
+
+.sectionTitleText {
+  flex-grow: 1; /* テキストが可能な限りスペースを占める */
+  margin-right: 10px; /* ボタンとの間にスペース */
+}
+
+.button.sectionToggleButton {
+  background: none;
+  border: 1px solid #ccc; /* GroupPageのmodalButton.secondaryのボーダー色に近づける */
+  border-radius: 5px;
+  color: var(--color-text-medium);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px; /* 左右のパディングをさらに減らす */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: unset; /* min-widthをリセットまたは非常に小さい値にする */
+  /* min-width: 16px; のように具体的な値を設定してもOK */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  width: auto; /* width: 100%; を上書きして自動調整にする */
+  margin-top: 0; /* margin-top: 15px; を上書きしてセクションタイトルに揃える */
+  font-weight: normal; /* font-weight: 700; を上書き */
+}
+
+.sectionToggleButton:hover:not(:disabled) {
+  background-color: #f0f0f0; /* GroupPageのmodalButton.secondary:hoverに合わせる */
+  border-color: #bbb;
+}
+
+.sectionToggleButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.toggleIcon {
+  font-size: 12px; /* アイコンのサイズを調整 */
+  line-height: 1;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--color-border-light);
+  font-size: 14px;
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 600; /* GroupPageのmodalFormLabelに合わせる */
+  color: var(--color-text-medium);
+  flex-shrink: 0; /* ラベルは縮まない */
+  margin-right: 10px; /* 値との間にスペース */
+}
+
+.value {
+  flex-grow: 1; /* 値が残りのスペースを占める */
+  text-align: right; /* 値を右寄せ */
+  word-break: break-all; /* 長い単語でも折り返す */
+  color: var(--color-text-dark); /* 値の色を統一 */
+  padding-right: 8px; /* ★★★ ここを追加: 右側に8pxのパディングを追加 ★★★ */
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formLabel {
+  display: block;
+  font-weight: 600; /* GroupPageのmodalFormLabelに合わせる */
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--color-text-medium);
+}
+
+.formInput {
+  width: 100%;
+  padding: 12px 16px; /* GroupPageのmodalFormInputに合わせる */
+  border: 1px solid #d8d8d8; /* GroupPageのmodalFormInputに合わせる */
+  border-radius: 8px; /* GroupPageのmodalFormInputに合わせる */
+  font-size: 16px; /* GroupPageのmodalFormInputに合わせる */
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s; /* GroupPageのmodalFormInputに合わせる */
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(
+    --color-primary
+  ); /* GroupPageのmodalFormInput:focusに合わせる */
+  box-shadow: 0 0 0 3px rgba(93, 176, 117, 0.3); /* GroupPageのmodalFormInput:focusに合わせる */
+}
+
+.inputWithButton {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* インプットとボタンの間のスペース */
+  flex-wrap: wrap; /* モバイルで折り返すため */
+}
+
+.inputWithButton .formInput {
+  flex-grow: 1;
+  min-width: 150px; /* 小さくなりすぎないように */
+}
+
+/* ボタンの共通スタイル */
+.button {
+  /* GroupPageの.buttonと統一 */
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    box-shadow 0.2s;
+  white-space: nowrap;
+  margin-top: 15px; /* デフォルトのmargin-topを維持 */
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ボタンのバリエーション */
+.primaryButton {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.primaryButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* GroupPageのprimaryButton:hoverに合わせる */
+}
+
+.dangerButton {
+  background-color: var(--color-danger);
+  color: var(--color-white);
+}
+
+.dangerButton:hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* GroupPageのprimaryButton:hoverに合わせる */
+}
+
+.linkButton {
+  background: none;
+  border: 1px solid var(--color-blue-link);
+  color: var(--color-blue-link);
+  padding: 8px 15px; /* linkButtonのパディングを調整 */
+  margin-top: 5px; /* デフォルトのmargin-topを小さく */
+  display: inline-block; /* inline-blockにしてwidthをautoにする */
+  width: auto; /* widthを自動調整 */
+  border-radius: 8px; /* GroupPageのボタンに合わせる */
+  font-weight: normal; /* linkButtonは少し軽めのフォント */
+}
+
+.linkButton:hover:not(:disabled) {
+  background-color: var(--color-blue-link);
+  color: var(--color-white);
+}
+
+/* 通知設定セクション固有のスタイル (必要に応じて) */
+.notificationStatusText {
+  /* .value を継承しつつ、通知状態に応じてスタイルを調整したい場合 */
+  text-align: left; /* 通知状態のテキストは左寄せにしたい場合 */
+  color: var(--color-text-medium);
+}
+
+.fcmTokenDisplay {
+  /* FCMトークン表示用のlistItemスタイル */
+  font-size: 0.8em; /* より小さく */
+  color: var(--color-text-light); /* 薄い色に */
+  border-top: 1px dashed var(--color-border-light); /* 上部に区切り線 */
+  margin-top: 15px; /* 上部に少しマージン */
+  padding-top: 10px;
+}
+
+.fcmTokenLabel {
+  /* FCMトークン表示のラベル */
+  font-weight: normal; /* 太字ではなくする */
+  color: var(--color-text-light);
+}
+
+.fcmTokenValue {
+  /* FCMトークン自体の値 */
+  word-break: break-all; /* 長いトークンがはみ出さないように */
+  font-family: "monospace"; /* トークンは等幅フォントが良い場合 */
+  color: var(--color-text-medium);
+}
+
+/* src/components/settings/EmergencyContactSection.module.css */
+
+.settingsSection {
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-small);
+}
+
+.sectionTitle {
+  font-size: 1.3em;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-primary-light);
+  text-align: center;
+}
+
+.subsection {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.subsection:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.subsectionTitle {
+  font-size: 1.1em;
+  color: var(--color-text-dark);
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.noDataText {
+  color: var(--color-text-medium);
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  background-color: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-tiny);
+}
+
+.contactInfo,
+.guideInfo {
+  flex-grow: 1;
+}
+
+.contactInfo strong,
+.guideInfo strong {
+  display: block;
+  font-size: 1em;
+  color: var(--color-text-dark);
+  margin-bottom: 5px;
+}
+
+.relationship {
+  font-size: 0.85em;
+  color: var(--color-text-medium);
+  margin-left: 5px;
+}
+
+.phoneNumber {
+  display: block;
+  font-size: 0.9em;
+  color: var(--color-accent);
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+.phoneNumber:hover {
+  text-decoration: underline;
+}
+
+.notes,
+.guideContent {
+  font-size: 0.8em;
+  color: var(--color-text-light);
+  margin-top: 5px;
+  white-space: pre-wrap; /* 改行を保持 */
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-left: 20px;
+  flex-shrink: 0; /* 縮小させない */
+}
+
+.editButton,
+.deleteButton,
+.saveButton,
+.cancelButton {
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  font-size: 0.85em;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.editButton {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.editButton:hover {
+  background-color: var(--color-secondary-dark);
+}
+
+.deleteButton {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: var(--color-danger-dark);
+}
+
+.formContainer {
+  background-color: #f8fcf9; /* 明るい背景 */
+  border: 1px solid var(--color-primary-light);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.formTitle {
+  font-size: 1em;
+  color: var(--color-primary);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.inputField,
+.textareaField {
+  width: calc(100% - 20px); /* Paddingを考慮 */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-small);
+  font-size: 0.9em;
+  color: var(--color-text-dark);
+}
+
+.inputField:focus,
+.textareaField:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(93, 176, 117, 0.2);
+}
+
+.textareaField {
+  resize: vertical; /* 垂直方向のみリサイズ可能 */
+}
+
+.formActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* 右寄せ */
+  margin-top: 15px;
+}
+
+.saveButton {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.saveButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.cancelButton {
+  background-color: var(--color-background-medium);
+  color: var(--color-text-dark);
+}
+
+.cancelButton:hover {
+  background-color: var(--color-background-dark);
+}
+
+/*
+モバイル向けレスポンシブデザイン
+App.cssでhtml, body, #rootの高さ、overflow-y: auto;
+SettingsScreen.module.cssで.containerのmin-height: 100vh; display: flex; flex-direction: column;
+を設定している前提
+*/
+@media (max-width: 600px) {
+  .header {
+    padding: 10px 15px; /* モバイルでは少しパディングを減らす */
+  }
+
+  .pageTitle {
+    font-size: 18px;
+  }
+
+  .section {
+    margin: 10px 15px; /* モバイルでの左右のマージンを調整 */
+    padding: 15px;
+  }
+
+  .sectionTitle {
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+
+  .listItem,
+  .formLabel,
+  .formInput,
+  .button,
+  .linkButton {
+    font-size: 14px;
+  }
+
+  .button {
+    padding: 10px 15px;
+  }
+
+  .inputWithButton {
+    flex-wrap: wrap; /* ボタンが複数ある場合に折り返す */
+    gap: 5px;
+  }
+
+  .inputWithButton .formInput {
+    min-width: 150px; /* インプットの最小幅 */
+  }
+
+  .inputWithButton .button {
+    margin-top: 5px; /* モバイルでのボタンの上下マージン調整 */
+  }
+
+  /*
+    モバイルでのグループ設定セクションのmax-height調整
+    ヘッダーの高さが少し小さくなるので、それに合わせて調整
+  */
+  .section:has(.sectionTitle .sectionToggleButton[aria-expanded="true"]) {
+    /* 仮定: モバイルヘッダー(50px), このセクションの上下マージン(10px*2), コンテナpadding-bottom(20px), ログアウトボタンセクションの高さ(約50px) */
+    max-height: calc(100vh - 50px - 10px - 10px - 20px - 50px);
+    /* ここも実際のアプリケーションで正確な値を計測し調整してください */
+  }
+
+  .fcmTokenDisplay {
+    font-size: 0.75em; /* モバイルではさらに小さく */
+  }
+}

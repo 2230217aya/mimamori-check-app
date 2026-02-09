@@ -1,0 +1,777 @@
+/* src/pages/TaskList.module.css (更新) */
+
+/* メインカラー定義 */
+:root {
+  --color-primary: #5db075;
+  --color-primary-hover: #4a9d64;
+  --color-background-light: #f7f9fc;
+  --color-text-dark: #333;
+  --color-text-medium: #555;
+  --color-error: #d9534f;
+}
+
+/* -------------------------------------- /
+/ 1. 全体コンテナとレイアウト /
+/ -------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-background-light);
+}
+
+/* 💡 ヘッダー部分のスタイル */
+.header {
+  display: flex;
+  justify-content: space-between; /* ⭐ 修正: 各セクションを両端に配置し、中央にスペースを作る */
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* gap: 10px; この設定は flex-grow と併用する場合、意図しない余白を生む可能性があるので注意 */
+}
+
+/* 戻るボタンのラッパー（存在しないが、左端要素を指す） */
+.header > .backButton {
+  flex-shrink: 0; /* 縮まない */
+  margin-right: 10px; /* 右側に少し余白 */
+}
+
+.dateNavigation {
+  flex-grow: 0.5; /* ⭐ 修正: 利用可能なスペースを全て占有し、中央に寄せる */
+  display: flex;
+  justify-content: center; /* ⭐ 変更なし: 内部要素を中央揃え */
+  align-items: center;
+  gap: 5px;
+  min-width: 180px;
+  /* flex-basis: 0; を追加することで、flex-grow がより効果的に機能する場合があります */
+  flex-basis: 0;
+  margin-left: 30px;
+}
+
+/* ⭐ 修正: 右側のアクションボタンをまとめるコンテナ */
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* アイコン間のスペース */
+  flex-shrink: 0; /* 縮まない */
+  margin-left: 10px; /* 左側に少し余白 */
+}
+
+/* 💡 戻るボタンのスタイル */
+.backButton {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+  flex-shrink: 0; /* 縮まないように */
+}
+
+.backButton:hover {
+  color: #333;
+  background-color: #f0f0f0;
+}
+
+/* ⭐ 変更: calendarButton と settingsButton は .iconButton クラスを使用 */
+/* .calendarButton,
+.settingsButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.calendarButton svg,
+.settingsButton svg {
+  width: 28px;
+  height: 28px;
+  fill: #5db075;
+}
+
+.calendarButton:hover svg,
+.settingsButton:hover svg {
+  fill: #4da66a;
+}
+
+.calendarButton:hover,
+.settingsButton:hover {
+  background-color: #f0f0f0;
+} */
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pageTitle:hover {
+  color: #5db075;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #555;
+  padding: 0 8px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0; /* 矢印ボタンも縮まないように */
+}
+
+.navButton:hover {
+  color: #333;
+  background-color: #f0f0f0;
+}
+
+/* ⭐ 修正: アイコンをまとめるコンテナ */
+.headerActions {
+  display: flex;
+  gap: 15px; /* アイコン間のスペース */
+  flex-shrink: 0; /* 縮まない */
+}
+
+/* ⭐ 新規追加: カレンダーアイコンと設定アイコンに適用する汎用スタイル */
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.iconButton:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.iconButton svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--color-primary);
+}
+
+/* -------------------------------------- /
+/ 2. タスク追加フォーム /
+/ -------------------------------------- */
+
+.taskForm {
+  display: flex;
+  gap: 10px;
+  /* 💡 修正: containerのpadding-topとheaderの高さに合わせて調整 */
+  margin-top: 20px; /* ヘッダーとフォームの間のマージン */
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0; /* フォームが縮まないように */
+}
+
+.taskInput {
+  flex-grow: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.taskInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(93, 176, 117, 0.3);
+}
+
+.addTaskButton {
+  background-color: #5db075;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.addTaskButton:hover {
+  background-color: #4da66a;
+}
+
+/* -------------------------------------- /
+/ 3. タスクリスト /
+/ -------------------------------------- */
+
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* ★重要: タスクリストが残りのスペースを埋めるように */
+  overflow-y: auto; /* ★重要: タスクリスト内でスクロール可能にする */
+  /* margin-top: 0; */ /* flex-growとoverflow-y:auto; が適用されるため、個別のマージンは調整 */
+  padding-bottom: 40px; /* ★追加: タスクリストの最下部に余白 */
+  /* スクロールバーのスタイルを調整したい場合はここに追記 */
+  /* -webkit-overflow-scrolling: touch; /* iOSの滑らかなスクロール */
+}
+
+.taskItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s;
+}
+
+.taskItem:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.taskInfo {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.taskCheckbox {
+  margin-right: 15px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+/* ⭐ タスク名編集用インプットのスタイル */
+.taskNameInput {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 1em; /* span のフォントサイズに合わせる */
+  margin-left: 10px; /* チェックボックスとの間隔 */
+  box-sizing: border-box; /* paddingを含めて幅を計算 */
+}
+
+.taskNameInput:focus {
+  outline: none;
+  border-color: #5db075; /* フォーカス時の色 */
+  box-shadow: 0 0 0 2px rgba(93, 176, 117, 0.3); /* フォーカス時のシャドウ */
+}
+
+/* ⭐ taskName がタップ可能であることを示すスタイル */
+.taskName {
+  cursor: pointer; /* ポインターカーソル */
+  flex-grow: 1; /* スペースを埋める */
+  margin-left: 10px; /* チェックボックスとの間隔 */
+}
+
+.taskName:hover:not(.completedTaskName) {
+  /* 完了済みのものはホバーエフェクトなし */
+  text-decoration: underline; /* ホバー時に下線 */
+}
+
+/* 完了済みタスク名のスタイル (既存のものがあればそのまま) */
+.completedTaskName {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.taskMetadata {
+  margin-left: 20px;
+  font-size: 12px;
+  color: var(--color-text-medium);
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* -------------------------------------- /
+/ 4. アクションボタン /
+/ -------------------------------------- */
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: var(--color-error);
+  cursor: pointer;
+  margin-left: 15px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  font-weight: 600;
+  align-self: center;
+}
+
+.deleteButton:hover {
+  background-color: rgba(217, 83, 79, 0.1);
+}
+
+/* -------------------------------------- /
+/ 5. コメントセクションのスタイル (新規追加) /
+/ -------------------------------------- */
+.commentSection {
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.commentTitle {
+  font-size: 14px;
+  color: var(--color-text-dark);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.commentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background-color: var(--color-background-light);
+  padding: 10px;
+  margin-bottom: 15px;
+  /* スクロールバーのスタイル（任意） */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) #f0f0f0;
+}
+
+.commentList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.commentList::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.commentList::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  border: 2px solid #f0f0f0;
+}
+
+.commentItem {
+  background-color: #ffffff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  position: relative;
+  display: flex; /* ⭐ flexbox に変更 */
+  flex-direction: column; /* ⭐ 縦並び */
+  /* flex-wrap: wrap; ⭐ コンテンツの折り返しを許可 */ /* ← コメント自体がblock要素なので不要 */
+}
+
+.commentItem:last-child {
+  margin-bottom: 0;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  flex-wrap: wrap; /* ⭐ スマホ対応で折り返す */
+}
+
+.commentAuthor {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-primary);
+  flex-shrink: 0; /* 縮まない */
+  margin-right: 8px; /* 時刻との間にスペース */
+}
+
+.commentTimestamp {
+  font-size: 11px;
+  color: var(--color-text-medium);
+  flex-grow: 1; /* 残りスペースを埋める */
+  text-align: right; /* 右寄せ */
+}
+
+.commentText {
+  font-size: 14px;
+  color: var(--color-text-dark);
+  line-height: 1.5;
+  margin-top: 5px; /* ⭐ 上の要素との間に少しスペース */
+  margin-bottom: 5px;
+  word-break: break-word;
+}
+
+.deleteCommentButton {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
+  line-height: 1;
+  flex-shrink: 0; /* 縮まない */
+  margin-left: 10px; /* ⭐ 時刻との間にスペース */
+}
+
+.deleteCommentButton:hover {
+  color: var(--color-error);
+  background-color: rgba(217, 83, 79, 0.1);
+}
+
+.noCommentsText {
+  font-size: 13px;
+  color: var(--color-text-medium);
+  text-align: center;
+  padding: 10px;
+}
+
+/* ⭐ コメントフォームとファイルアップロード関連のスタイルを追加/修正 */
+.commentForm {
+  display: flex;
+  flex-direction: column; /* 要素を縦に並べる */
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #ddd;
+}
+
+.commentInput {
+  flex-grow: 1;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical; /* 垂直方向にリサイズ可能 */
+}
+
+.commentInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(93, 176, 117, 0.3);
+}
+
+/* ⭐ ファイル選択UIのコンテナ */
+.commentActions {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 少し狭くしてスペースを確保 */
+  margin-bottom: 0;
+  flex-wrap: wrap; /* 子要素が収まらない場合、次の行に折り返す */
+  width: 93%; /* 親要素の幅いっぱいに */
+}
+
+.fileInput {
+  display: none; /* デフォルトのファイル選択ボタンを非表示 */
+}
+
+/* ⭐ ファイル選択ボタンのスタイル (色変更もここ) */
+.fileUploadLabel {
+  background-color: var(--color-primary-light); /* 薄いプライマリーカラー */
+  color: var(--color-primary-dark); /* プライマリーカラーの濃い色 */
+  padding: 8px 12px;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  border: 1px solid var(--color-primary);
+  white-space: nowrap;
+  flex-shrink: 0; /* 縮小しない */
+  border-radius: 8px;
+  /* ⭐ 追加: PC表示での最大幅を設定して、ファイル名とのバランスを取る */
+  /* max-width: calc(50% - 4px); */ /* 必要であれば */
+}
+
+.fileUploadLabel:hover {
+  background-color: var(--color-primary-medium);
+  color: white;
+  border-color: var(--color-primary-dark);
+}
+
+/* ⭐ 選択されたファイル名の表示 */
+.selectedFileName {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  flex-grow: 1; /* 残りのスペースを埋める */
+  min-width: 0; /* flexアイテムの最小幅を解除 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 5px;
+  /* ⭐ 追加: PC表示での最大幅も考慮して、ファイル名がボタンの半分以上にならないようにする */
+  /* max-width: calc(50% - 4px); */ /* 必要であれば */
+}
+
+.uploadProgress {
+  font-size: 0.8em;
+  color: #007bff;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 5px;
+  background-color: #e6f2ff;
+  border-radius: 4px;
+}
+
+.addCommentButton {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  width: 100%; /* ⭐ 幅いっぱいに */
+}
+
+.addCommentButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addCommentButton:disabled {
+  background-color: #a5d6b4;
+  cursor: not-allowed;
+}
+
+/* ⭐ ファイル添付の表示スタイル (CommentItem内) */
+.fileAttachment {
+  margin-top: 10px;
+  border-top: 1px dashed #eee;
+  padding-top: 8px;
+  text-align: center; /* 中央寄せ */
+  max-width: 400px; /* 例: 200px に制限 */
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--color-background-light); /* 少し背景色をつける */
+  border-radius: var(--border-radius-small);
+  padding: 5px; /* 内側の余白 */
+  box-shadow: var(--shadow-small); /* 軽い影 */
+}
+
+.attachedImage {
+  max-width: 95%; /* 親要素に合わせて画像を調整 */
+  height: auto;
+  border-radius: var(--border-radius-small);
+  display: block; /* 余分なスペースを削除 */
+  margin: 0 auto 5px auto; /* 中央寄せ */
+  cursor: zoom-in; /* クリックで拡大できるようなヒント */
+  border: 1px solid var(--color-border-light); /* 軽いボーダー */
+}
+
+.attachedFileName {
+  font-size: 0.8em;
+  color: #555;
+  text-align: center;
+  word-break: break-all; /* 長いファイル名も折り返す */
+  margin-top: 5px;
+}
+
+.attachedFileLink {
+  display: flex; /* ⭐ Flexboxに変更 */
+  align-items: center; /* ⭐ 垂直方向中央寄せ */
+  justify-content: center; /* ⭐ 水平方向中央寄せ */
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9em;
+  padding: 5px;
+  background-color: #e6f2ff;
+  border-radius: 4px;
+  word-break: break-all; /* 長いファイル名も折り返す */
+  margin: 5px auto; /* 中央寄せ */
+  max-width: 90%; /* 親要素の幅を少し縮める */
+}
+
+.attachedFileLink:hover {
+  text-decoration: underline;
+  background-color: #cce0ff;
+}
+
+.fileIcon {
+  margin-right: 5px;
+  vertical-align: middle; /* テキストとアイコンの縦位置を揃える */
+  font-size: 1.2em; /* アイコンを少し大きく */
+}
+
+.fabContainer {
+  position: fixed;
+  bottom: 16px;
+  right: 850px;
+  z-index: 1000;
+}
+
+/* -------------------------------------- /
+/ 6. レスポンシブ対応 (モバイル向け) /
+/ -------------------------------------- */
+@media (max-width: 600px) {
+  .container {
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .commentTimestamp {
+    text-align: left; /* 左寄せ */
+    margin-left: 0;
+    margin-top: 2px;
+  }
+
+  .deleteCommentButton {
+    position: absolute; /* ⭐ 絶対配置にして右上へ */
+    top: 5px;
+    right: 5px;
+    margin-left: 0;
+  }
+
+  .commentActions {
+    flex-direction: column; /* ⭐ 縦並びに変更 */
+    align-items: flex-start; /* 左寄せ */
+    gap: 8px; /* 縦並びの隙間 */
+  }
+
+  .fileUploadLabel {
+    width: 100%; /* ⭐ スマホでは幅いっぱいにする */
+    text-align: center; /* ⭐ テキストを中央寄せ */
+    padding: 10px; /* ⭐ ボタンのパディングを少し大きく */
+  }
+
+  .selectedFileName {
+    width: 100%; /* ⭐ スマホでは幅いっぱいにする */
+    text-align: left; /* ⭐ ファイル名は左寄せ */
+    padding-left: 0; /* ⭐ 縦並びなので不要 */
+    margin-top: -3px; /* ⭐ ファイル名とボタンの間隔を調整 */
+  }
+
+  .addCommentButton {
+    width: 100%;
+  }
+
+  .attachedFileLink {
+    max-width: 100%; /* モバイルでは幅いっぱいに */
+  }
+
+  .taskForm {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .taskItem {
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+  .taskInfo {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .taskMetadata {
+    width: 100%;
+    margin-left: 33px;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+
+  .deleteButton {
+    margin-left: auto;
+    padding: 0;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-top: 15px; /* モバイルヘッダーのpadding-topを調整 */
+  }
+
+  .backButton {
+    order: 1;
+    font-size: 14px;
+    padding: 6px 10px;
+    margin-right: 10px;
+  }
+
+  .settingsButton {
+    order: 2;
+    font-size: 14px;
+    padding: 6px 10px;
+    margin-left: 10px;
+  }
+
+  .pageTitle {
+    order: 0;
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding: 0;
+    width: 100%;
+    flex-grow: unset;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .commentForm {
+    flex-direction: column;
+  }
+
+  .addCommentButton {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .fabContainer {
+    bottom: 24px;
+    right: 20px;
+  }
+
+  .dateNavigation {
+    flex-grow: 0.5; /* ⭐ 修正: 利用可能なスペースを全て占有し、中央に寄せる */
+    display: flex;
+    justify-content: center; /* ⭐ 変更なし: 内部要素を中央揃え */
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+    /* flex-basis: 0; を追加することで、flex-grow がより効果的に機能する場合があります */
+    flex-basis: 0;
+  }
+}

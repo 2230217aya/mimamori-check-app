@@ -1,0 +1,294 @@
+/* src/components/calendar/TaskCalendarModal.module.css */
+
+/* --- モーダル共通スタイル --- */
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 999;
+}
+
+.dialogWrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.dialogPanel {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  line-height: 1;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+/* --- カレンダーコンテナとデフォルトスタイル --- */
+.calendarContainer {
+  flex-grow: 1;
+  position: relative; /* z-index の基準 */
+  z-index: 1; /* カレンダーコンテナ自体は背景層に */
+}
+
+/* Big Calendarの共通クラス上書き */
+.calendarContainer .rbc-header {
+  padding: 8px 0;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  z-index: 10; /* ヘッダーは日付セルより手前 */
+}
+
+.calendarContainer .rbc-month-view,
+.calendarContainer .rbc-week-view {
+  border: none;
+}
+
+.calendarContainer .rbc-off-range-bg {
+  background-color: #f3f3f3; /* 前月、次月の日付の背景色 */
+}
+
+.calendarContainer .rbc-day-bg {
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  z-index: 1; /* 最背面 */
+  /* pointer-events: none; クリックイベントを拾わない */
+}
+
+.calendarContainer .rbc-day-bg.rbc-today {
+  background-color: #e6ffff; /* 今日の背景色 */
+}
+
+.calendarContainer .rbc-event {
+  margin: 0 1px; /* イベント間のマージンを最小限に */
+  padding: 1px 4px; /* 上下のパディングをさらに減らす */
+  font-size: 0.65em; /* ⭐ フォントサイズをさらに小さく */
+  line-height: 1.1; /* 行の高さを詰める */
+  height: auto !important;
+  min-height: 12px; /* ⭐ 最低限の高さをさらに減らす */
+  white-space: nowrap; /* ⭐ 折り返しをやめて一行表示にする（ellipsisで省略）*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none; /* クリック不可 */
+  z-index: 4;
+  display: block; /* Flexではなくブロック要素にする */
+  box-sizing: border-box; /* パディングを高さに含める */
+}
+
+.calendarContainer .rbc-events-container {
+  z-index: 20; /* イベント表示コンテナは背景より手前 */
+  pointer-events: none; /* イベント自体は直接クリックさせない */
+  position: absolute;
+  top: 25px; /* ⭐ 日付番号の下にイベントが始まるように上部にパディング */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 2px; /* 左右に少しパディング */
+}
+
+.calendarContainer .rbc-event-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 25; /* rbc-events-container よりは上 */
+  pointer-events: none; /* イベント自体は直接クリックさせない */
+}
+
+/* 日付番号を常に最前面に表示 */
+.calendarContainer .rbc-day-number {
+  position: absolute; /* 相対配置から絶対配置に変更 */
+  top: 5px; /* セルの上部に配置 */
+  right: 5px; /* セルの右端に配置 */
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #333;
+  z-index: 5; /* ⭐ 最も高い z-index を設定し、他の要素に隠れないようにする */
+  pointer-events: none; /* 日付番号自体はクリックさせない */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ); /* 背景が透けるように、日付の背景に色を付ける */
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+/* --- CustomToolbarのスタイル --- */
+.rbcToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  z-index: 15; /* ツールバーも手前に */
+}
+
+.rbcToolbar .rbcBtnGroup button {
+  background-color: #b0b0b0; /* デフォルトの色を少し落ち着かせたグレー */
+  color: white;
+  border: 1px solid #b0b0b0;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin: 0 2px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.rbcToolbar .rbcBtnGroup button:hover {
+  background-color: #84c484; /* ホバー時に指定の色 */
+  border-color: #84c484;
+}
+
+.rbcToolbar .rbcBtnGroup button.active {
+  background-color: #4da66a; /* アクティブなボタンの色 */
+  border-color: #4da66a;
+}
+
+.rbcToolbar .rbcToolbarLabel {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.calendarControls {
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+.selectControl {
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-left: 10px;
+}
+
+/* --- CustomDayCellWrapper スタイル (クリック検出の核) --- */
+.customDayCell {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* ⭐ タスクサマリーを下部に集める */
+  align-items: stretch;
+  pointer-events: auto;
+  z-index: 2; /* ⭐ rbc-day-bg より上、イベントや日付番号より下に設定 */
+  cursor: pointer;
+  padding-bottom: 25px; /* ⭐ タスクサマリー分のスペースを確保 */
+  box-sizing: border-box; /* パディングを width/height に含める */
+}
+
+/* customDayCell の中の直接の子要素 (React Big Calendar の元のコンテンツ) */
+.customDayCell > div {
+  pointer-events: none;
+  user-select: none;
+  position: absolute; /* ⭐ ここも絶対配置に変更し、カスタムセルの上部に配置 */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 5px; /* イベントとの間隔を確保 */
+}
+
+/* --- タスクサマリー表示スタイル --- */
+
+.taskSummary {
+  position: absolute;
+  bottom: 0px; /* ⭐ セルの下部に固定 */
+  left: 0px;
+  right: 0px;
+  background-color: rgba(240, 240, 240, 0.9); /* ⭐ 背景色を明るく、半透明に */
+  padding: 2px 5px;
+  font-size: 0.75em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  border-top: 1px solid #ddd; /* ボーダーの色も調整 */
+  z-index: 100; /* ⭐ これを高く保ち、常に前面に表示 */
+  pointer-events: none; /* サマリー自体はクリックさせない */
+  height: 25px; /* ⭐ 固定の高さ */
+  line-height: 1; /* 行の高さを調整 */
+}
+
+.taskCount {
+  font-weight: bold;
+  color: #333;
+}
+
+.uncompletedTasks {
+  color: #dc3545; /* 未完了がある場合の色 */
+}
+
+.allCompleted {
+  color: #28a745; /* 全て完了している場合の色 */
+}
+
+.uncompletedIndicator {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.completedIndicator {
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* --- dayPropGetter で設定するクラスのスタイル (背景色など) --- */
+/* これらのz-indexは低いままでOK。customDayCell の背景として機能させる */
+.dayWithUncompletedTasks {
+  background-color: #ffe0e0; /* 未完了タスクがある日の背景 */
+  border: 1px solid #f8d7da;
+}
+
+.dayWithAllCompletedTasks {
+  background-color: #e0ffe0; /* 全て完了したタスクがある日の背景 */
+  border: 1px solid #d4edda;
+}
+
+/* dayWithTasks::after は CustomDayCellWrapper の taskSummary で置き換えられたので、削除 */
+/* .dayWithTasks は今は使わないので、削除 */
+/* .dayWithTasks::after は TaskSummary の機能に統合されたので削除 */
+/* var(--task-indicator-bg) なども TaskSummary に統合されたので削除 */
