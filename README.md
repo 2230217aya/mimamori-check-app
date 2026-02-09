@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -71,3 +72,7 @@ export default defineConfig([
   },
 ])
 ```
+=======
+# mimamori-check-app
+在宅介護における家族・介護者間の情報共有を円滑にし、負担を軽減するアプリ【2025冬～20262月】
+>>>>>>> b43625799649ae607cf7a0600a300244de7a026a
