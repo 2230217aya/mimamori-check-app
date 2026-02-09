@@ -104,19 +104,19 @@ AI健康インサイト:
 
 2. 健康記録ダッシュボード
 
-![alt text](https://github.com/YOUR_GITHUB_USERNAME/mimamori-check-app/blob/main/docs/screenshot_health_dashboard.png?raw=true)
+![alt text](https://github.com/2230217aya/mimamori-check-app/blob/main/docs/screenshot_health_dashboard.png?raw=true)
 
 3. 健康記録入力画面 (例: バイタルサイン)
 
-![alt text](https://github.com/YOUR_GITHUB_USERNAME/mimamori-check-app/blob/main/docs/screenshot_vitalsign_input.png?raw=true)
+![alt text](https://github.com/2230217aya/mimamori-check-app/blob/main/docs/screenshot_vitalsign_input.png?raw=true)
 
 4. カレンダービュー
 
-![alt text](https://github.com/YOUR_GITHUB_USERNAME/mimamori-check-app/blob/main/docs/screenshot_calendar_view.png?raw=true)
+![alt text](https://github.com/2230217aya/mimamori-check-app/blob/main/docs/screenshot_calendar_view.png?raw=true)
 
 5. AI健康インサイト表示例
 まだ完成しきってない
-<!-- ![alt text](https://github.com/YOUR_GITHUB_USERNAME/mimamori-check-app/blob/main/docs/screenshot_ai_insights.png?raw=true) -->
+<!-- ![alt text](https://github.com/2230217aya/mimamori-check-app/blob/main/docs/screenshot_ai_insights.png?raw=true) -->
 
 実行方法 (How to Run)
 
